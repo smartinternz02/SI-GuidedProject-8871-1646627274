@@ -2,7 +2,7 @@
 # importing the necessary dependencies
 import numpy as np #used for numerical analysis
 import pandas as pd # used for data manipulation
-from flask import Flask,
+from flask import Flask, render_template, request
 # Flask-It is our framework which we are going to use to run/serve our application.
 #request-for accessing file which was uploaded by the user on our application.
 import pickle
@@ -24,13 +24,15 @@ def predict():
     
     #reading the inputs given by the user
     input_features = [float(x) for x in request.form.values()]
+    features_value = [np.array(input_features)]
     
     features_name = ['Country','Life expectancy','Mean years of schooling','Gross national income (GNI) per         capita','Internet Users']
     
-    df = pd.DataFrame(features_value)
+    df = pd.DataFrame(features_value, columns=features_name)
     
     # predictions using the loaded model file
     output = model.predict(df)
+    print(round(output[0][0],2))
     print(type(output))
     y_pred =round(output[0][0],2)
     if(y_pred >= 0.3 and y_pred <= 0.4) :
